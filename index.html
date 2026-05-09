@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>HAND.MADE & FURNITURE — Handcrafted Furniture</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Jost:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      :root{
+        --cream:#f8f3ec;--warm:#f2e8d9;--sand:#e8d5b7;--oak:#c4956a;
+        --walnut:#8b5e3c;--mahogany:#6b3a2a;--charcoal:#2c2416;--dark:#1a1410;
+        --white:#ffffff;--text:#3d2e1e;--text-light:#7a6551;--text-muted:#a89880;
+        --green:#4a7c59;--green-light:#e8f0eb;--red:#c0392b;
+        --shadow-sm:0 2px 12px rgba(44,36,22,.08);
+        --shadow-md:0 8px 32px rgba(44,36,22,.12);
+        --shadow-lg:0 20px 60px rgba(44,36,22,.18);
+        --radius:12px;--radius-lg:20px;
+        --transition:all .3s cubic-bezier(.4,0,.2,1)
+      }
+      html{scroll-behavior:smooth}
+      body{font-family:"Jost",sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;cursor:none}
+
+      /* Cursor */
+      .cursor{position:fixed;width:10px;height:10px;background:var(--walnut);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s ease,opacity .3s;transform:translate(-50%,-50%)}
+      .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--oak);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .08s ease,width .3s,height .3s,opacity .3s;transform:translate(-50%,-50%)}
+      .cursor.hover{transform:translate(-50%,-50%) scale(2.5);background:var(--oak);opacity:.5}
+      .cursor-ring.hover{width:20px;height:20px}
+
+      /* Scrollbar */
+      ::-webkit-scrollbar{width:6px}
+      ::-webkit-scrollbar-track{background:var(--warm)}
+      ::-webkit-scrollbar-thumb{background:var(--oak);border-radius:3px}
+
+      /* NAVBAR */
+      .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;transition:var(--transition);background:transparent}
+      .navbar.scrolled{background:rgba(248,243,236,.96);backdrop-filter:blur(20px);box-shadow:var(--shadow-sm)}
+      .nav-inner{display:flex;align-items:center;justify-content:space-between;height:78px}
+      .nav-logo{font-family:"Playfair Display",serif;font-size:22px;font-weight:900;color:var(--dark);letter-spacing:-.5px;text-decoration:none;display:flex;align-items:center;gap:8px}
+      .nav-logo span{color:var(--oak)}
+      .logo-mark{width:34px;height:34px;background:var(--walnut);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+      .logo-mark img{width:34px;height:34px;object-fit:cover}
+      .nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+      .nav-links a{font-size:14px;font-weight:500;color:var(--text-light);text-decoration:none;letter-spacing:.5px;transition:color .2s;position:relative}
+      .nav-links a::after{content:"";position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--oak);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+      .nav-links a:hover{color:var(--walnut)}
+      .nav-links a:hover::after{transform:scaleX(1)}
+      .nav-actions{display:flex;align-items:center;gap:16px}
+      .nav-icon-btn{width:42px;height:42px;border:1.5px solid var(--sand);border-radius:50%;background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;transition:var(--transition);position:relative}
+      .nav-icon-btn:hover{background:var(--walnut);border-color:var(--walnut)}
+      .nav-icon-btn:hover svg{stroke:white}
+      .nav-icon-btn svg{width:18px;height:18px;stroke:var(--text-light);fill:none;stroke-width:1.8;transition:stroke .2s}
+      .cart-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:var(--walnut);border-radius:50%;font-size:10px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;border:2px solid var(--cream)}
+      .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:none;padding:4px}
+      .nav-hamburger span{width:24px;height:1.5px;background:var(--text);display:block;transition:var(--transition)}
+      .mobile-menu{display:none;position:fixed;inset:0;background:var(--cream);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:40px}
+      .mobile-menu.open{display:flex}
+      .mobile-menu a{font-family:"Playfair Display",serif;font-size:32px;color:var(--text);text-decoration:none;transition:color .2s}
+      .mobile-menu a:hover{color:var(--oak)}
+      .close-menu{position:absolute;top:24px;right:24px;width:44px;height:44px;cursor:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--sand);border-radius:50%}
+
+      /* HERO */
+      .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;padding-top:78px}
+      .hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 5% 80px 8%;background:var(--cream)}
+      .hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--oak);margin-bottom:24px;font-weight:600}
+      .hero-tag::before{content:"";width:32px;height:1px;background:var(--oak)}
+      .hero-title{font-family:"Playfair Display",serif;font-size:clamp(42px,5.5vw,72px);line-height:1.08;font-weight:900;color:var(--dark);margin-bottom:24px;letter-spacing:-1.5px}
+      .hero-title em{font-style:italic;color:var(--walnut)}
+      .hero-desc{font-size:16px;line-height:1.8;color:var(--text-light);max-width:420px;margin-bottom:48px;font-weight:300}
+      .hero-btns{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+      .btn-primary{padding:16px 36px;background:var(--walnut);color:white;border:none;border-radius:60px;font-size:14px;font-weight:600;letter-spacing:.5px;cursor:none;transition:var(--transition);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+      .btn-primary:hover{background:var(--mahogany);transform:translateY(-2px);box-shadow:0 12px 32px rgba(107,58,42,.3)}
+      .btn-primary svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
+      .btn-primary:hover svg{transform:translateX(4px)}
+      .btn-outline{padding:15px 36px;background:transparent;color:var(--walnut);border:1.5px solid var(--walnut);border-radius:60px;font-size:14px;font-weight:600;cursor:none;transition:var(--transition);text-decoration:none}
+      .btn-outline:hover{background:var(--walnut);color:white}
+      .hero-stats{display:flex;gap:40px;margin-top:60px;padding-top:40px;border-top:1px solid var(--sand)}
+      .hero-stat .num{font-family:"Playfair Display",serif;font-size:32px;font-weight:700;color:var(--dark)}
+      .hero-stat .lbl{font-size:12px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+      .hero-right{position:relative;background:var(--warm);overflow:hidden}
+      .hero-img-grid{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px}
+      .hero-img-cell{overflow:hidden}
+      .hero-img-cell img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease;filter:sepia(15%) saturate(90%)}
+      .hero-img-cell:hover img{transform:scale(1.05)}
+      .hero-img-cell:first-child{grid-column:1/3}
+      .hero-badge{position:absolute;bottom:40px;left:-20px;background:white;border-radius:16px;padding:16px 20px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:12px;z-index:2}
+      .hero-badge-icon{width:44px;height:44px;background:var(--green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+      .hero-badge-text strong{display:block;font-size:14px;font-weight:600;color:var(--dark)}
+      .hero-badge-text span{font-size:12px;color:var(--text-muted)}
+      .hero-scroll{position:absolute;bottom:40px;right:5%;display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);writing-mode:vertical-rl;animation:scrollBounce 2s ease-in-out infinite}
+      @keyframes scrollBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+      /* MARQUEE */
+      .marquee-wrap{background:var(--walnut);padding:16px 0;overflow:hidden}
+      .marquee-track{display:flex;gap:0;animation:marqueeAnim 25s linear infinite;white-space:nowrap}
+      .marquee-item{display:inline-flex;align-items:center;gap:16px;padding:0 40px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:500}
+      .marquee-dot{width:4px;height:4px;background:var(--oak);border-radius:50%}
+      @keyframes marqueeAnim{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+      /* SECTION COMMON */
+      section{padding:100px 5%}
+      .section-header{text-align:center;margin-bottom:70px}
+      .section-tag{display:inline-block;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--oak);margin-bottom:16px;font-weight:600}
+      .section-title{font-family:"Playfair Display",serif;font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--dark);letter-spacing:-1px;line-height:1.15}
+      .section-title em{font-style:italic;color:var(--walnut)}
+      .section-sub{font-size:16px;color:var(--text-light);margin-top:16px;font-weight:300;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8}
+
+      /* CATEGORIES */
+      .categories-section{background:var(--warm)}
+      .cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+      .cat-card{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:3/4;cursor:none}
+      .cat-card-inner{position:absolute;inset:0}
+      .cat-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .6s ease;font-size:80px}
+      .cat-bg img{width:100%;height:100%;object-fit:cover}
+      .cat-card:hover .cat-bg{transform:scale(1.08)}
+      .cat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.85) 0%,rgba(26,20,16,.2) 50%,transparent 100%)}
+      .cat-info{position:absolute;bottom:0;left:0;right:0;padding:28px 24px;transform:translateY(8px);transition:transform .3s}
+      .cat-card:hover .cat-info{transform:translateY(0)}
+      .cat-name{font-family:"Playfair Display",serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px}
+      .cat-count{font-size:12px;color:rgba(255,255,255,.65);letter-spacing:1px;text-transform:uppercase}
+      .cat-arrow{position:absolute;top:20px;right:20px;width:38px;height:38px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(-6px);transition:all .3s;backdrop-filter:blur(10px)}
+      .cat-card:hover .cat-arrow{opacity:1;transform:translateY(0)}
+      .cat-arrow svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:2}
+      .cat-beds{background:linear-gradient(135deg,#3d2b1f,#6b4226)}
+      .cat-sofas{background:linear-gradient(135deg,#2d3b2e,#4a6741)}
+      .cat-tables{background:linear-gradient(135deg,#2b2b3d,#4a4266)}
+      .cat-chairs{background:linear-gradient(135deg,#3d2b2b,#6b4242)}
+
+      /* FILTERS + PRODUCTS */
+      .shop-section{background:var(--cream)}
+      .filter-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px}
+      .filter-tabs{display:flex;gap:8px;flex-wrap:wrap}
+      .filter-tab{padding:9px 20px;border-radius:60px;border:1.5px solid var(--sand);background:transparent;font-size:13px;font-weight:500;color:var(--text-light);cursor:none;transition:var(--transition);font-family:"Jost",sans-serif}
+      .filter-tab:hover{border-color:var(--oak);color:var(--walnut)}
+      .filter-tab.active{background:var(--walnut);border-color:var(--walnut);color:white}
+      .sort-select{padding:9px 16px;border:1.5px solid var(--sand);border-radius:10px;background:white;font-size:13px;color:var(--text);font-family:"Jost",sans-serif;cursor:none;outline:none}
+
+      /* PRODUCT GRID */
+      .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+      .product-card{background:white;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:var(--transition);cursor:none;position:relative}
+      .product-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+      .product-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--warm)}
+      .product-img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:flex;align-items:center;justify-content:center;font-size:72px}
+      /* FIX: img inside product-img fills properly */
+      .product-img img{width:100%;height:100%;object-fit:cover;display:block}
+      .product-card:hover .product-img{transform:scale(1.05)}
+      .product-badges{position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px}
+      .badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+      .badge-new{background:#e8f5e9;color:#2e7d32}
+      .badge-sale{background:#fff3e0;color:#e65100}
+      .badge-hot{background:#fce4ec;color:#c2185b}
+      .badge-handmade{background:var(--warm);color:var(--walnut)}
+      .badge-premium{background:#ede7f6;color:#512da8}
+      .badge-bestseller{background:#fff8e1;color:#f57f17}
+      .product-wishlist{position:absolute;top:14px;right:14px;width:36px;height:36px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);cursor:none;transition:var(--transition);border:none}
+      .product-wishlist:hover{background:var(--mahogany)}
+      .product-wishlist svg{width:16px;height:16px;stroke:var(--text-muted);fill:none;stroke-width:1.8;transition:all .2s}
+      .product-wishlist:hover svg{stroke:white}
+      .product-wishlist.wishlisted svg{fill:var(--mahogany);stroke:var(--mahogany)}
+      .product-quick{position:absolute;bottom:14px;left:50%;transform:translateX(-50%) translateY(10px);opacity:0;transition:all .3s;white-space:nowrap;background:var(--dark);color:white;border:none;padding:8px 18px;border-radius:60px;font-size:12px;font-weight:500;cursor:none;font-family:"Jost",sans-serif}
+      .product-card:hover .product-quick{opacity:1;transform:translateX(-50%) translateY(0)}
+      .product-info{padding:18px 20px 20px}
+      .product-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--oak);margin-bottom:6px;font-weight:600}
+      .product-name{font-family:"Playfair Display",serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;line-height:1.3}
+      .product-rating{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+      .stars{color:#d4a017;font-size:12px;letter-spacing:1px}
+      .rating-count{font-size:12px;color:var(--text-muted)}
+      .product-footer{display:flex;align-items:center;justify-content:space-between}
+      .product-price{display:flex;align-items:baseline;gap:8px}
+      .price-current{font-family:"Playfair Display",serif;font-size:20px;font-weight:700;color:var(--walnut)}
+      .price-old{font-size:13px;color:var(--text-muted);text-decoration:line-through}
+      .add-to-cart{width:40px;height:40px;background:var(--walnut);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;transition:var(--transition);flex-shrink:0}
+      .add-to-cart:hover{background:var(--mahogany);transform:scale(1.1)}
+      .add-to-cart svg{width:17px;height:17px;stroke:white;fill:none;stroke-width:2}
+      .add-to-cart.added{background:var(--green);animation:pulse .4s ease}
+      @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+      /* FEATURE BANNER */
+      .feature-section{background:var(--charcoal);padding:80px 5%}
+      .feature-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+      .feature-left .section-tag{color:var(--oak)}
+      .feature-left .section-title{color:white}
+      .feature-left .section-title em{color:var(--oak)}
+      .feature-left p{color:rgba(255,255,255,.6);font-size:16px;line-height:1.8;margin-top:20px;font-weight:300}
+      .feature-list{margin-top:40px;display:flex;flex-direction:column;gap:20px}
+      .feature-item{display:flex;align-items:flex-start;gap:16px}
+      .feature-icon{width:48px;height:48px;background:rgba(196,149,106,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+      .feature-text strong{display:block;font-size:15px;color:white;margin-bottom:4px}
+      .feature-text span{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6}
+      .feature-right{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+      .feat-stat-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg);padding:28px 24px;transition:var(--transition)}
+      .feat-stat-card:hover{background:rgba(196,149,106,.1);border-color:rgba(196,149,106,.3)}
+      .feat-stat-card .emoji{font-size:32px;margin-bottom:16px}
+      .feat-stat-card .num{font-family:"Playfair Display",serif;font-size:36px;font-weight:900;color:white;line-height:1}
+      .feat-stat-card .desc{font-size:13px;color:rgba(255,255,255,.5);margin-top:6px;text-transform:uppercase;letter-spacing:1px}
+
+      /* TESTIMONIALS */
+      .testimonials-section{background:var(--warm)}
+      .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+      .testi-card{background:white;border-radius:var(--radius-lg);padding:32px 28px;box-shadow:var(--shadow-sm);transition:var(--transition);position:relative}
+      .testi-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+      .testi-card::before{content:'"';font-family:"Playfair Display",serif;font-size:80px;color:var(--sand);position:absolute;top:16px;left:24px;line-height:1;font-weight:700}
+      .testi-rating{color:#d4a017;font-size:14px;margin-bottom:16px;padding-top:24px}
+      .testi-text{font-size:15px;line-height:1.8;color:var(--text-light);margin-bottom:24px;font-style:italic;font-weight:300}
+      .testi-author{display:flex;align-items:center;gap:12px;border-top:1px solid var(--warm);padding-top:20px}
+      .testi-avatar{width:46px;height:46px;border-radius:50%;background:var(--walnut);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;font-family:"Playfair Display",serif;font-weight:700;flex-shrink:0}
+      .testi-name strong{display:block;font-size:14px;color:var(--dark);font-weight:600}
+      .testi-name span{font-size:12px;color:var(--text-muted)}
+
+      /* NEWSLETTER */
+      .newsletter-section{background:linear-gradient(135deg,var(--walnut),var(--mahogany));padding:80px 5%;text-align:center}
+      .newsletter-section .section-tag{color:rgba(255,255,255,.7)}
+      .newsletter-section .section-title{color:white}
+      .newsletter-section p{color:rgba(255,255,255,.7);margin-top:12px;font-size:16px;font-weight:300}
+      .newsletter-form{display:flex;gap:0;max-width:500px;margin:40px auto 0;border-radius:60px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+      .newsletter-input{flex:1;padding:18px 28px;border:none;outline:none;font-size:14px;font-family:"Jost",sans-serif;background:white;color:var(--text)}
+      .newsletter-btn{padding:18px 32px;background:var(--dark);color:white;border:none;font-size:14px;font-weight:600;cursor:none;transition:background .2s;font-family:"Jost",sans-serif;white-space:nowrap}
+      .newsletter-btn:hover{background:var(--charcoal)}
+
+      /* FOOTER */
+      footer{background:var(--dark);padding:80px 5% 40px;color:rgba(255,255,255,.7)}
+      .footer-top{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px}
+      .footer-brand p{font-size:14px;line-height:1.8;color:rgba(255,255,255,.5);margin-bottom:28px;font-weight:300;max-width:280px}
+      .footer-socials{display:flex;gap:12px}
+      .social-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:none;transition:var(--transition);overflow:hidden;text-decoration:none}
+      .social-btn:hover{background:var(--walnut);border-color:var(--walnut)}
+      .social-btn img{width:32px;height:32px;object-fit:cover;border-radius:6px}
+      .footer-col h4{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:white;margin-bottom:24px}
+      .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+      .footer-col a{font-size:14px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;font-weight:300}
+      .footer-col a:hover{color:var(--oak)}
+      .footer-divider{border:none;border-top:1px solid rgba(255,255,255,.08);margin-bottom:32px}
+      .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+      .footer-bottom p{font-size:13px;color:rgba(255,255,255,.35)}
+      .footer-payments{display:flex;align-items:center;gap:10px}
+      .payment-icon{padding:6px 12px;background:rgba(255,255,255,.08);border-radius:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:1px}
+
+      /* CART SIDEBAR */
+      .cart-overlay{position:fixed;inset:0;background:rgba(26,20,16,.6);z-index:2000;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+      .cart-overlay.open{opacity:1;pointer-events:all}
+      .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:440px;max-width:100vw;background:var(--cream);z-index:2001;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.15)}
+      .cart-sidebar.open{transform:translateX(0)}
+      .cart-header{display:flex;align-items:center;justify-content:space-between;padding:28px 32px;border-bottom:1px solid var(--sand)}
+      .cart-title{font-family:"Playfair Display",serif;font-size:22px;font-weight:700;color:var(--dark)}
+      .cart-close{width:40px;height:40px;border:1.5px solid var(--sand);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;background:transparent;transition:var(--transition)}
+      .cart-close:hover{background:var(--walnut);border-color:var(--walnut)}
+      .cart-close:hover svg{stroke:white}
+      .cart-close svg{width:18px;height:18px;stroke:var(--text);fill:none;stroke-width:2}
+      .cart-items{flex:1;overflow-y:auto;padding:24px 32px}
+      .cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;color:var(--text-muted);text-align:center}
+      .cart-empty-icon{font-size:60px}
+      .cart-empty p{font-size:14px;line-height:1.7}
+      .cart-item{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--warm);align-items:flex-start}
+      /* FIX: cart item image properly handles both image and emoji */
+      .cart-item-img{width:80px;height:80px;background:var(--warm);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;overflow:hidden}
+      .cart-item-img img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+      .cart-item-details{flex:1}
+      .cart-item-name{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px;font-family:"Playfair Display",serif}
+      .cart-item-cat{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+      .cart-item-controls{display:flex;align-items:center;gap:12px}
+      .qty-btn{width:28px;height:28px;border:1.5px solid var(--sand);border-radius:8px;background:transparent;cursor:none;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-light);transition:var(--transition)}
+      .qty-btn:hover{background:var(--walnut);border-color:var(--walnut);color:white}
+      .qty-val{font-size:14px;font-weight:600;min-width:20px;text-align:center;color:var(--dark)}
+      .cart-item-price{font-family:"Playfair Display",serif;font-size:16px;font-weight:700;color:var(--walnut)}
+      .cart-remove{background:none;border:none;cursor:none;color:var(--text-muted);font-size:18px;padding:0;line-height:1;transition:color .2s;margin-left:auto}
+      .cart-remove:hover{color:var(--red)}
+      .cart-footer{padding:24px 32px;border-top:1px solid var(--sand);background:white}
+      .cart-subtotal{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;color:var(--text-light)}
+      .cart-total{display:flex;justify-content:space-between;margin-bottom:24px;font-size:18px;font-weight:700;color:var(--dark);font-family:"Playfair Display",serif;padding-top:12px;border-top:1px solid var(--sand)}
+      .checkout-btn{width:100%;padding:17px;background:var(--walnut);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:none;transition:var(--transition);font-family:"Jost",sans-serif;letter-spacing:.5px}
+      .checkout-btn:hover{background:var(--mahogany)}
+
+      /* PAYMENT MODAL */
+      .modal-overlay{position:fixed;inset:0;background:rgba(26,20,16,.7);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px;backdrop-filter:blur(8px)}
+      .modal-overlay.open{opacity:1;pointer-events:all}
+      .modal{background:white;border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:scale(.95) translateY(10px);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+      .modal-overlay.open .modal{transform:scale(1) translateY(0)}
+      .modal-header{padding:28px 32px 24px;border-bottom:1px solid var(--warm);display:flex;align-items:center;justify-content:space-between}
+      .modal-title{font-family:"Playfair Display",serif;font-size:22px;font-weight:700;color:var(--dark)}
+      .modal-close{background:none;border:none;cursor:none;font-size:22px;color:var(--text-muted);line-height:1;padding:4px;transition:color .2s}
+      .modal-close:hover{color:var(--dark)}
+      .modal-body{padding:28px 32px}
+      .modal-section-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--oak);margin-bottom:16px;font-weight:700}
+      .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+      .form-group{margin-bottom:14px;position:relative}
+      .form-label{display:block;font-size:12px;font-weight:600;color:var(--text-light);margin-bottom:6px;letter-spacing:.5px}
+      .form-input{width:100%;padding:13px 16px;border:1.5px solid var(--sand);border-radius:10px;font-size:14px;font-family:"Jost",sans-serif;color:var(--dark);outline:none;transition:border-color .2s,box-shadow .2s;background:white}
+      .form-input:focus{border-color:var(--oak);box-shadow:0 0 0 3px rgba(196,149,106,.15)}
+      .card-icons{display:flex;gap:8px;margin-bottom:16px}
+      .card-icon{padding:6px 10px;border:1.5px solid var(--sand);border-radius:6px;font-size:12px;font-weight:700;cursor:none;transition:all .2s;color:var(--text-light)}
+      .card-icon.active{border-color:var(--oak);color:var(--walnut);background:var(--warm)}
+      .card-field{position:relative}
+      .card-field .card-brand{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:20px}
+      .modal-divider{border:none;border-top:1px solid var(--warm);margin:20px 0}
+      .order-summary-mini{background:var(--warm);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+      .order-line{display:flex;justify-content:space-between;font-size:13px;color:var(--text-light);padding:4px 0}
+      .order-line.total{font-weight:700;font-size:15px;color:var(--dark);border-top:1px solid var(--sand);margin-top:8px;padding-top:10px}
+      /* FIX: order-summary item image */
+      .order-line-img{width:28px;height:28px;border-radius:6px;object-fit:cover;margin-right:6px;vertical-align:middle}
+      .pay-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--walnut),var(--mahogany));color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:none;transition:var(--transition);font-family:"Jost",sans-serif;letter-spacing:.5px;display:flex;align-items:center;justify-content:center;gap:10px}
+      .pay-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 8px 24px rgba(107,58,42,.3)}
+      .pay-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+      .secure-note{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:12px;color:var(--text-muted)}
+      .secure-note svg{width:13px;height:13px;stroke:var(--green);fill:none;stroke-width:2.5}
+
+      /* SUCCESS MODAL */
+      .success-modal{display:none;flex-direction:column;align-items:center;text-align:center;padding:48px 32px}
+      .success-modal.active{display:flex}
+      .success-icon{width:80px;height:80px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:24px;animation:popIn .5s ease}
+      @keyframes popIn{0%{transform:scale(0)}80%{transform:scale(1.1)}100%{transform:scale(1)}}
+      .success-modal h3{font-family:"Playfair Display",serif;font-size:26px;font-weight:700;color:var(--dark);margin-bottom:12px}
+      .success-modal p{font-size:14px;color:var(--text-light);line-height:1.7;max-width:300px}
+      .success-order{background:var(--warm);border-radius:10px;padding:12px 20px;margin:20px 0;font-size:13px;color:var(--text-light)}
+      .success-order strong{color:var(--walnut)}
+
+      /* TOAST */
+      .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:white;padding:14px 24px;border-radius:60px;font-size:13px;font-weight:500;z-index:9000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:10px}
+      .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+      .toast-icon{font-size:16px}
+
+      /* SCROLL ANIMATIONS */
+      .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+      .reveal.visible{opacity:1;transform:translateY(0)}
+      .reveal-delay-1{transition-delay:.1s}
+      .reveal-delay-2{transition-delay:.2s}
+      .reveal-delay-3{transition-delay:.3s}
+
+      /* QUICK VIEW MODAL */
+      .quickview-modal{position:fixed;inset:0;background:rgba(26,20,16,.7);z-index:3500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px;backdrop-filter:blur(8px)}
+      .quickview-modal.open{opacity:1;pointer-events:all}
+      .quickview-inner{background:white;border-radius:24px;max-width:680px;width:100%;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;transform:scale(.95);transition:transform .3s;position:relative}
+      .quickview-modal.open .quickview-inner{transform:scale(1)}
+      /* FIX: qv-img handles both image and emoji */
+      .qv-img{background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:100px;border-radius:24px 0 0 24px;min-height:300px;overflow:hidden}
+      .qv-img img{width:100%;height:100%;object-fit:cover;border-radius:24px 0 0 24px}
+      .qv-info{padding:36px 32px;display:flex;flex-direction:column;gap:12px}
+      .qv-cat{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--oak);font-weight:700}
+      .qv-name{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:var(--dark);line-height:1.2}
+      .qv-rating{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted)}
+      .qv-price{font-family:"Playfair Display",serif;font-size:28px;font-weight:700;color:var(--walnut)}
+      .qv-desc{font-size:14px;color:var(--text-light);line-height:1.7;font-weight:300}
+      .qv-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+      .qv-spec{background:var(--warm);border-radius:8px;padding:10px 12px}
+      .qv-spec .k{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:2px}
+      .qv-spec .v{font-size:13px;font-weight:600;color:var(--dark)}
+      .qv-actions{display:flex;gap:10px;margin-top:8px}
+      .qv-add-btn{flex:1;padding:14px;background:var(--walnut);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:none;font-family:"Jost",sans-serif;transition:var(--transition)}
+      .qv-add-btn:hover{background:var(--mahogany)}
+      .qv-close{background:none;border:none;cursor:none;font-size:22px;color:var(--text-muted);position:absolute;top:16px;right:16px}
+
+      /* RESPONSIVE */
+      @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}.cats-grid{grid-template-columns:repeat(4,1fr)}}
+      @media(max-width:900px){.hero{grid-template-columns:1fr}.hero-right{display:none}.products-grid{grid-template-columns:repeat(2,1fr)}.cats-grid{grid-template-columns:repeat(2,1fr)}.footer-top{grid-template-columns:1fr 1fr;gap:40px}.feature-grid{grid-template-columns:1fr}.testimonials-grid{grid-template-columns:1fr}.quickview-inner{grid-template-columns:1fr}.qv-img{border-radius:24px 24px 0 0;min-height:200px}.qv-img img{border-radius:24px 24px 0 0}}
+      @media(max-width:640px){.nav-links,.nav-actions .btn-primary{display:none}.nav-hamburger{display:flex}section{padding:70px 5%}.products-grid{grid-template-columns:1fr 1fr;gap:16px}.cats-grid{grid-template-columns:1fr 1fr}.cart-sidebar{width:100%}.footer-top{grid-template-columns:1fr}.newsletter-form{flex-direction:column;border-radius:14px}.newsletter-input,.newsletter-btn{border-radius:14px}.form-row{grid-template-columns:1fr}.hero-stats{gap:24px}.hero-btns{flex-direction:column;align-items:flex-start}}
+      @media(max-width:400px){.products-grid{grid-template-columns:1fr}}
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <div class="toast" id="toast">
+      <span class="toast-icon">🛒</span><span id="toastMsg">Added to cart!</span>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <div class="logo-mark">
+            <img src="./logo.enc" alt="Logo" onerror="this.style.display='none'" />
+          </div>
+          HAND.MADE &amp; <span>FURNITURE</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#categories">Collections</a></li>
+          <li><a href="#features">Our Craft</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="nav-icon-btn" onclick="toggleCart()" aria-label="Cart">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </button>
+          <button class="nav-icon-btn" aria-label="Search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <button class="close-menu" onclick="toggleMobileMenu()">✕</button>
+      <a href="#shop" onclick="toggleMobileMenu()">Shop</a>
+      <a href="#categories" onclick="toggleMobileMenu()">Collections</a>
+      <a href="#features" onclick="toggleMobileMenu()">Our Craft</a>
+      <a href="#reviews" onclick="toggleMobileMenu()">Reviews</a>
+      <a href="#footer" onclick="toggleMobileMenu()">Contact</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-left">
+        <div class="hero-tag">Est. 2021 · Handcrafted with love</div>
+        <h1 class="hero-title">Where <em>Wood</em><br/>Tells Its Own<br/>Story</h1>
+        <p class="hero-desc">Every piece we craft carries the grain of its origin — unique, honest, and built to outlast generations. Discover furniture that breathes life into your home.</p>
+        <div class="hero-btns">
+          <a href="#shop" class="btn-primary">Explore Collection <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#features" class="btn-outline">Our Process</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">2,400+</div><div class="lbl">Pieces Crafted</div></div>
+          <div class="hero-stat"><div class="num">15yr</div><div class="lbl">Of Mastery</div></div>
+          <div class="hero-stat"><div class="num">98%</div><div class="lbl">Happy Homes</div></div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-img-grid">
+          <div class="hero-img-cell" style="background:linear-gradient(135deg,#4a3728,#7a5c44);display:flex;align-items:center;justify-content:center;">
+            <img src="./bed.avif" alt="Bed" />
+          </div>
+          <div class="hero-img-cell" style="background:linear-gradient(135deg,#2d3b2e,#4a6741);display:flex;align-items:center;justify-content:center;">
+            <img src="./sofa.jpg" alt="Sofa" />
+          </div>
+          <div class="hero-img-cell" style="background:linear-gradient(135deg,#3d3228,#6b5040);display:flex;align-items:center;justify-content:center;">
+            <img src="./taj bed.webp" alt="Taj Bed" />
+          </div>
+        </div>
+        <div class="hero-badge">
+          <div class="hero-badge-icon">🌿</div>
+          <div class="hero-badge-text">
+            <strong>100% Sustainable Wood</strong>
+            <span>Ethically sourced materials</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item"><span class="marquee-dot"></span>Handcrafted Furniture</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Sustainable Wood</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Free Delivery</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Custom Orders Welcome</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>10 Year Warranty</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Master Craftsmen</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Ethically Sourced</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Premium Quality</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Handcrafted Furniture</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Sustainable Wood</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Free Delivery</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Custom Orders Welcome</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>10 Year Warranty</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Master Craftsmen</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Ethically Sourced</span>
+        <span class="marquee-item"><span class="marquee-dot"></span>Premium Quality</span>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <section class="categories-section" id="categories">
+      <div class="section-header reveal">
+        <div class="section-tag">Browse by Category</div>
+        <h2 class="section-title">Every Room,<br/><em>Perfected</em></h2>
+        <p class="section-sub">From the bedroom to the study, every piece is crafted by hand.</p>
+      </div>
+      <div class="cats-grid">
+        <div class="cat-card reveal reveal-delay-1" onclick="filterProducts('Beds')">
+          <div class="cat-card-inner cat-beds"><div class="cat-bg"><img src="./luxury bed.avif" alt="Beds"/></div></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-info"><div class="cat-name">Beds & Frames</div><div class="cat-count">24 Products</div></div>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+        <div class="cat-card reveal reveal-delay-2" onclick="filterProducts('Sofas')">
+          <div class="cat-card-inner cat-sofas"><div class="cat-bg"><img src="./5000Z500.jpg" alt="Sofas"/></div></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-info"><div class="cat-name">Sofas & Lounges</div><div class="cat-count">18 Products</div></div>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+        <div class="cat-card reveal reveal-delay-3" onclick="filterProducts('Tables')">
+          <div class="cat-card-inner cat-tables"><div class="cat-bg"><img src="./tableand desl.jpg" alt="Tables"/></div></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-info"><div class="cat-name">Tables & Desks</div><div class="cat-count">32 Products</div></div>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+        <div class="cat-card reveal reveal-delay-1" onclick="filterProducts('Chairs')">
+          <div class="cat-card-inner cat-chairs"><div class="cat-bg"><img src="./1gggg.webp" alt="Chairs"/></div></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-info"><div class="cat-name">Chairs & Stools</div><div class="cat-count">29 Products</div></div>
+          <div class="cat-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shop-section" id="shop">
+      <div class="section-header reveal">
+        <div class="section-tag">Our Collection</div>
+        <h2 class="section-title">Featured<br/><em>Masterpieces</em></h2>
+        <p class="section-sub">Each piece lovingly made by our master craftsmen in Lahore.</p>
+      </div>
+      <div class="filter-bar reveal">
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterProducts('All')">All</button>
+          <button class="filter-tab" onclick="filterProducts('Beds')">Beds</button>
+          <button class="filter-tab" onclick="filterProducts('Sofas')">Sofas</button>
+          <button class="filter-tab" onclick="filterProducts('Tables')">Tables</button>
+          <button class="filter-tab" onclick="filterProducts('Chairs')">Chairs</button>
+          <button class="filter-tab" onclick="filterProducts('Storage')">Storage</button>
+        </div>
+        <select class="sort-select" onchange="sortProducts(this.value)">
+          <option value="default">Sort: Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="newest">Newest First</option>
+        </select>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+      <div style="text-align:center;margin-top:50px">
+        <button class="btn-outline" id="loadMoreBtn" onclick="loadMore()">Load More Pieces</button>
+      </div>
+    </section>
+
+    <!-- FEATURE -->
+    <section class="feature-section" id="features">
+      <div class="feature-grid">
+        <div class="feature-left reveal">
+          <div class="section-tag">Why Choose Us</div>
+          <h2 class="section-title" style="text-align:left">Craft That<br/><em>Outlasts</em><br/>Generations</h2>
+          <p>We don't mass-produce. Every joint, curve, and surface is shaped by human hands with decades of experience. Wood is not just our material — it's our language.</p>
+          <div class="feature-list">
+            <div class="feature-item"><div class="feature-icon">🌳</div><div class="feature-text"><strong>Sustainably Sourced Wood</strong><span>Every plank is responsibly harvested from certified forests in Northern Pakistan and beyond.</span></div></div>
+            <div class="feature-item"><div class="feature-icon">🔨</div><div class="feature-text"><strong>Handcrafted by Masters</strong><span>Our artisans average 20 years of experience, passing skills through generations.</span></div></div>
+            <div class="feature-item"><div class="feature-icon">📦</div><div class="feature-text"><strong>White Glove Delivery</strong><span>We deliver, assemble, and place every piece exactly where you want it — for free.</span></div></div>
+            <div class="feature-item"><div class="feature-icon">🛡️</div><div class="feature-text"><strong>10-Year Warranty</strong><span>Built to last. We stand behind every piece with a decade-long craftsmanship guarantee.</span></div></div>
+          </div>
+        </div>
+        <div class="feature-right reveal">
+          <div class="feat-stat-card"><div class="emoji">🏠</div><div class="num">2,400+</div><div class="desc">Homes furnished</div></div>
+          <div class="feat-stat-card"><div class="emoji">⭐</div><div class="num">4.97</div><div class="desc">Average rating</div></div>
+          <div class="feat-stat-card"><div class="emoji">👨‍🔧</div><div class="num">42</div><div class="desc">Master craftsmen</div></div>
+          <div class="feat-stat-card"><div class="emoji">🌿</div><div class="num">100%</div><div class="desc">Sustainable materials</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="testimonials-section" id="reviews">
+      <div class="section-header reveal">
+        <div class="section-tag">Customer Stories</div>
+        <h2 class="section-title">Loved by<br/><em>Real Homes</em></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testi-card reveal reveal-delay-1">
+          <div class="testi-rating">★★★★★</div>
+          <p class="testi-text">The walnut dining table we ordered surpassed every expectation. Three years on and it's the centrepiece of our family life. You can feel the soul in every grain.</p>
+          <div class="testi-author"><div class="testi-avatar">A</div><div class="testi-name"><strong>Amna Ali</strong><span>Lahore, Pakistan</span></div></div>
+        </div>
+        <div class="testi-card reveal reveal-delay-2">
+          <div class="testi-rating">★★★★★</div>
+          <p class="testi-text">I've furnished my entire living room from HAND.MADE & FURNITURE. The craftsmanship is extraordinary — my sofa feels like it was made for my exact dimensions.</p>
+          <div class="testi-author"><div class="testi-avatar">U</div><div class="testi-name"><strong>Usman Malik</strong><span>Karachi, Pakistan</span></div></div>
+        </div>
+        <div class="testi-card reveal reveal-delay-3">
+          <div class="testi-rating">★★★★★</div>
+          <p class="testi-text">The delivery and assembly team was professional and thoughtful. Our king bed frame is a masterpiece. Worth every rupee. We'll be ordering more pieces soon.</p>
+          <div class="testi-author"><div class="testi-avatar">S</div><div class="testi-name"><strong>Sara Ahmed</strong><span>Islamabad, Pakistan</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter-section">
+      <div class="section-tag">Stay Inspired</div>
+      <h2 class="section-title" style="color:white">Get 10% Off<br/><em>Your First Order</em></h2>
+      <p>Subscribe to our journal — new designs, craft stories, and exclusive offers.</p>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Enter your email address..." />
+        <button class="newsletter-btn" onclick="subscribeNewsletter(this)">Subscribe Now</button>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:white;display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+            <div style="width:34px;height:34px;background:var(--walnut);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+              <img src="./logo.enc" alt="Logo" style="width:34px;height:34px;object-fit:cover;" onerror="this.style.display='none'" />
+            </div>
+            HAND.MADE &amp; <span style="color:gold">FURNITURE</span>
+          </div>
+          <p>Crafting heirloom-quality <span style="color:gold">furniture</span> from sustainable wood since 2021. Each piece tells the story of its origin.</p>
+          <div class="footer-socials">
+            <a class="social-btn" href="" target="_blank" aria-label="Facebook"><img src="./fb..webp" alt="Facebook" /></a>
+            <a class="social-btn" href="" target="_blank" aria-label="Instagram"><img src="./instagrm.webp" alt="Instagram" /></a>
+            <a class="social-btn" href="" target="_blank" aria-label="TikTok"><img src="./tiktok.webp" alt="TikTok" /></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Collections</h4>
+          <ul>
+            <li><a href="#">Bedroom</a></li>
+            <li><a href="#">Living Room</a></li>
+            <li><a href="#">Dining Room</a></li>
+            <li><a href="#">Home Office</a></li>
+            <li><a href="#">Outdoor</a></li>
+            <li><a href="#">New Arrivals</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="#">Track Your Order</a></li>
+            <li><a href="#">Delivery Info</a></li>
+            <li><a href="#">Returns Policy</a></li>
+            <li><a href="#">Warranty Claims</a></li>
+            <li><a href="#">Care Instructions</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <ul>
+            <li><a href="#">📍 80fut road Margazar officer society, Lahore</a></li>
+            <li><a href="#">📞 +92 303 4058602</a></li>
+            <li><a href="#">✉️ babad3054@gmail.com</a></li>
+            <li><a href="#">⏰ Mon–Sat 10am–12pm</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="footer-divider" />
+      <div class="footer-bottom">
+        <p>© 2024 HAND.MADE & FURNITURE. All rights reserved. Made with ❤️ in Lahore.</p>
+        <div class="footer-payments">
+          <div class="payment-icon">VISA</div>
+          <div class="payment-icon">MC</div>
+          <div class="payment-icon">AMEX</div>
+          <div class="payment-icon">JCB</div>
+          <div class="payment-icon">COD</div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <span class="cart-title">Your Cart</span>
+        <button class="cart-close" onclick="toggleCart()">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <div class="cart-empty" id="cartEmpty">
+          <div class="cart-empty-icon">🛒</div>
+          <p>Your cart is empty.<br/>Start adding beautiful pieces!</p>
+        </div>
+      </div>
+      <div class="cart-footer" id="cartFooter" style="display:none">
+        <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">PKR 0</span></div>
+        <div class="cart-subtotal"><span>Delivery</span><span style="color:var(--green)">Free</span></div>
+        <div class="cart-total"><span>Total</span><span id="cartTotal">PKR 0</span></div>
+        <button class="checkout-btn" onclick="openPayment()">Proceed to Checkout →</button>
+      </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div class="modal-overlay" id="paymentModal">
+      <div class="modal">
+        <div id="paymentForm">
+          <div class="modal-header">
+            <span class="modal-title">Secure Checkout</span>
+            <button class="modal-close" onclick="closePayment()">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="order-summary-mini" id="orderSummaryMini"></div>
+            <div class="modal-section-title">Shipping Information</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">First Name</label><input class="form-input" placeholder="Ahmed" /></div>
+              <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" placeholder="Khan" /></div>
+            </div>
+            <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" placeholder="ahmed@email.com" /></div>
+            <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" placeholder="+92 300 0000000" /></div>
+            <div class="form-group"><label class="form-label">Delivery Address</label><input class="form-input" placeholder="House #, Street, Area" /></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">City</label><input class="form-input" placeholder="Lahore" /></div>
+              <div class="form-group"><label class="form-label">Postal Code</label><input class="form-input" placeholder="54000" /></div>
+            </div>
+            <hr class="modal-divider" />
+            <div class="modal-section-title">Payment Method</div>
+            <div class="card-icons">
+              <div class="card-icon active" onclick="selectCard(this,'VISA')">VISA</div>
+              <div class="card-icon" onclick="selectCard(this,'MC')">MC</div>
+              <div class="card-icon" onclick="selectCard(this,'AMEX')">AMEX</div>
+              <div class="card-icon" onclick="selectCard(this,'COD')">COD</div>
+            </div>
+            <div id="cardFields">
+              <div class="form-group card-field">
+                <label class="form-label">Card Number</label>
+                <input class="form-input" placeholder="1234  5678  9012  3456" maxlength="19" oninput="formatCard(this)" />
+                <span class="card-brand" id="cardBrand">💳</span>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Expiry Date</label><input class="form-input" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)" /></div>
+                <div class="form-group"><label class="form-label">CVV</label><input class="form-input" placeholder="•••" maxlength="4" type="password" /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Cardholder Name</label><input class="form-input" placeholder="Ahmed Khan" /></div>
+            </div>
+            <button class="pay-btn" onclick="processPayment()">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Place Order Securely
+            </button>
+            <div class="secure-note">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              256-bit SSL encryption · Your data is always safe
+            </div>
+          </div>
+        </div>
+        <div class="success-modal" id="successModal">
+          <div class="success-icon">✅</div>
+          <h3>Order Placed!</h3>
+          <p>Thank you for your order. Our team will contact you within 2 hours to confirm delivery.</p>
+          <div class="success-order">Order ID: <strong id="orderId">#WS-000000</strong></div>
+          <p style="font-size:13px;color:var(--text-muted)">A confirmation has been sent to your email.</p>
+          <button class="btn-primary" style="margin-top:20px;cursor:none" onclick="closeAndReset()">Continue Shopping →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK VIEW MODAL -->
+    <div class="quickview-modal" id="quickviewModal" onclick="closeQV(event)">
+      <div class="quickview-inner" id="quickviewInner">
+        <div class="qv-img" id="qvImg"></div>
+        <div class="qv-info">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div></div>
+            <button class="qv-close" onclick="document.getElementById('quickviewModal').classList.remove('open')">✕</button>
+          </div>
+          <div class="qv-cat" id="qvCat"></div>
+          <div class="qv-name" id="qvName"></div>
+          <div class="qv-rating"><span style="color:#d4a017">★★★★★</span><span id="qvRating"></span></div>
+          <div class="qv-price" id="qvPrice"></div>
+          <div class="qv-desc" id="qvDesc"></div>
+          <div class="qv-specs" id="qvSpecs"></div>
+          <div class="qv-actions"><button class="qv-add-btn" id="qvAddBtn">Add to Cart</button></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── CURSOR ──
+      const cursor = document.getElementById('cursor');
+      const cursorRing = document.getElementById('cursorRing');
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        cursorRing.style.left = e.clientX + 'px';
+        cursorRing.style.top = e.clientY + 'px';
+      });
+      document.addEventListener('mouseover', e => {
+        if (e.target.closest('a,button,.product-card,.cat-card,.filter-tab,.nav-icon-btn,.social-btn,.add-to-cart,.cart-item,.qv-add-btn,.pay-btn,.checkout-btn,.close-menu')) {
+          cursor.classList.add('hover'); cursorRing.classList.add('hover');
+        }
+      });
+      document.addEventListener('mouseout', () => {
+        cursor.classList.remove('hover'); cursorRing.classList.remove('hover');
+      });
+
+      // ── NAVBAR SCROLL ──
+      window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+      });
+
+      // ── MOBILE MENU ──
+      function toggleMobileMenu() {
+        document.getElementById('mobileMenu').classList.toggle('open');
+      }
+
+      // ── PRODUCTS DATA ──
+      // NOTE: Duplicate id:14 removed. All products use image or emoji (never both undefined).
+      const allProducts = [
+        { id:1, name:'King Walnut Bed Frame', cat:'Beds', image:'./bed.avif', price:250000, oldPrice:320000, rating:'4.9', reviews:128, badges:['Bestseller'], material:'Solid Walnut', size:'King Size', finish:'Natural Oil', weight:'85kg', desc:'A majestic king bed frame crafted from solid walnut with hand-carved headboard detailing and mortise-and-tenon joinery.', new:false, sale:true },
+        { id:2, name:'Oak Sectional Sofa', cat:'Sofas', image:'./sofa.jpg', price:195000, oldPrice:null, rating:'4.8', reviews:94, badges:['New'], material:'Oak & Linen', size:'L-Shape', finish:'Raw Oak', weight:'120kg', desc:'Modular oak-framed sectional sofa with premium Belgian linen upholstery. Naturally aged finish.', new:true, sale:false },
+        { id:3, name:'Live Edge Dining Table', cat:'Tables', image:'./edge.webp', price:145000, oldPrice:160000, rating:'5.0', reviews:67, badges:['Hot'], material:'Mango Wood', size:'6-Seater', finish:'Epoxy Fill', weight:'70kg', desc:'Each live edge dining table is completely one-of-a-kind, preserving the natural outer edge of the slab.', new:false, sale:true },
+        { id:4, name:'Wishbone Dining Chair', cat:'Chairs', image:'./wish bone.jfif', price:28000, oldPrice:null, rating:'4.7', reviews:203, badges:['Handmade'], material:'Teak Wood', size:'Standard', finish:'Dark Stain', weight:'8kg', desc:'Inspired by Hans Wegner\'s classic design, our version is hand-shaped from solid teak with a woven seat.', new:false, sale:false },
+        { id:5, name:'Queen Sheesham Bed', cat:'Beds', image:'./taj bed.webp', price:210000, oldPrice:240000, rating:'4.9', reviews:88, badges:['Sale'], material:'Sheesham Wood', size:'Queen Size', finish:'Dark Walnut', weight:'75kg', desc:'Sheesham wood queen bed with storage drawers and upholstered padded headboard.', new:false, sale:true },
+        { id:6, name:'Chesterfield 3-Seater', cat:'Sofas', image:'./chestifer.jfif', price:320000, oldPrice:null, rating:'4.9', reviews:41, badges:['Premium'], material:'Genuine Leather', size:'3 Seater', finish:'Cognac Leather', weight:'90kg', desc:'Traditional Chesterfield with deep button tufting and solid oak legs. A true statement of luxury.', new:false, sale:false },
+        { id:7, name:'Hairpin Leg Coffee Table', cat:'Tables', image:'./hair by.jfif', price:52000, oldPrice:58000, rating:'4.6', reviews:156, badges:['New'], material:'Pine + Steel', size:'90×50cm', finish:'White Oak', weight:'15kg', desc:'Light and modern coffee table with a solid pine slab top and hand-bent steel hairpin legs.', new:true, sale:true },
+        { id:8, name:'Ladder Bookshelf', cat:'Storage', emoji:'📚', price:75000, oldPrice:null, rating:'4.8', reviews:77, badges:['Handmade'], material:'Bamboo', size:'180×60cm', finish:'Natural', weight:'20kg', desc:'Leaning ladder shelf with 5 tiers crafted from sustainably harvested bamboo.', new:false, sale:false },
+        { id:9, name:'Bunk Bed with Desk', cat:'Beds', image:'./bunk.jfif', price:165000, oldPrice:190000, rating:'4.7', reviews:52, badges:['Sale'], material:'Solid Pine', size:'Twin Over Full', finish:'White', weight:'95kg', desc:'Space-saving bunk bed with integrated study desk and ladder. Ideal for children\'s rooms.', new:false, sale:true },
+        { id:10, name:'Rocking Armchair', cat:'Chairs', emoji:'🪑', price:68000, oldPrice:null, rating:'4.9', reviews:39, badges:['New'], material:'Teak + Cane', size:'Standard', finish:'Honey', weight:'12kg', desc:'Hand-woven cane back rocking chair with solid teak frame. Slow comfort perfected.', new:true, sale:false },
+        { id:11, name:'Walnut Writing Desk', cat:'Tables', emoji:'🖊️', price:98000, oldPrice:115000, rating:'4.8', reviews:63, badges:['Bestseller'], material:'Walnut', size:'140×70cm', finish:'Matte Lacquer', weight:'40kg', desc:'A beautifully clean writing desk with leather-inlaid top and handmade dovetail drawers.', new:false, sale:true },
+        { id:12, name:'Floating Wall Shelf Set', cat:'Storage', emoji:'🗄️', price:38000, oldPrice:null, rating:'4.6', reviews:118, badges:['New'], material:'Reclaimed Wood', size:'Set of 3', finish:'Raw', weight:'9kg', desc:'Set of 3 floating shelves cut from reclaimed barn wood. Each piece uniquely aged.', new:true, sale:false },
+        { id:13, name:'Mid-Century TV Console', cat:'Storage', emoji:'📺', price:85000, oldPrice:99000, rating:'4.7', reviews:44, badges:['Sale'], material:'Teak Veneer', size:'120×45cm', finish:'Teak Stain', weight:'25kg', desc:'Sleek TV console with sliding doors and open shelving, finished in rich teak veneer.', new:false, sale:true },
+      ];
+
+      let filteredProducts = [...allProducts];
+      let displayCount = 8;
+      let cart = [];
+
+      // ── HELPER: get display media for a product ──
+      // Returns an HTML string: <img> if product has image, emoji text if only emoji, placeholder if neither.
+      function getProductMedia(p, extraStyle = '') {
+        if (p.image) {
+          return `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;${extraStyle}" onerror="this.parentElement.innerHTML='<span style=font-size:48px>${p.emoji || '🪑'}</span>'" />`;
+        }
+        return `<span style="font-size:72px">${p.emoji || '🪑'}</span>`;
+      }
+
+      // ── RENDER PRODUCTS ──
+      function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        const visible = filteredProducts.slice(0, displayCount);
+        grid.innerHTML = visible.map(p => {
+          const badgeHTML = p.badges.map(b => {
+            const cls = b==='New' ? 'badge-new' : b==='Sale' ? 'badge-sale' : b==='Hot' ? 'badge-hot' : b==='Premium' ? 'badge-premium' : b==='Bestseller' ? 'badge-bestseller' : 'badge-handmade';
+            return `<span class="badge ${cls}">${b}</span>`;
+          }).join('');
+          const priceHTML = p.oldPrice
+            ? `<span class="price-current">PKR ${p.price.toLocaleString()}</span><span class="price-old">PKR ${p.oldPrice.toLocaleString()}</span>`
+            : `<span class="price-current">PKR ${p.price.toLocaleString()}</span>`;
+          return `<div class="product-card" data-id="${p.id}">
+            <div class="product-img-wrap">
+              <div class="product-img">${getProductMedia(p)}</div>
+              <div class="product-badges">${badgeHTML}</div>
+              <button class="product-wishlist" onclick="toggleWishlist(this,event)" aria-label="Wishlist">
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <button class="product-quick" onclick="openQuickView(${p.id},event)">Quick View</button>
+            </div>
+            <div class="product-info">
+              <div class="product-category">${p.cat}</div>
+              <div class="product-name">${p.name}</div>
+              <div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">${p.rating} (${p.reviews})</span></div>
+              <div class="product-footer">
+                <div class="product-price">${priceHTML}</div>
+                <button class="add-to-cart" onclick="addToCart(${p.id},this,event)" aria-label="Add to cart">
+                  <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+        document.getElementById('loadMoreBtn').style.display = displayCount >= filteredProducts.length ? 'none' : 'inline-flex';
+      }
+
+      // ── FILTER ──
+      function filterProducts(cat) {
+        document.querySelectorAll('.filter-tab').forEach(t => {
+          t.classList.toggle('active', t.textContent.trim() === cat || (cat === 'All' && t.textContent.trim() === 'All'));
+        });
+        filteredProducts = cat === 'All' ? [...allProducts] : allProducts.filter(p => p.cat === cat);
+        displayCount = 8;
+        renderProducts();
+        document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function sortProducts(val) {
+        const base = [...filteredProducts];
+        if (val === 'price-low') base.sort((a,b) => a.price - b.price);
+        else if (val === 'price-high') base.sort((a,b) => b.price - a.price);
+        else if (val === 'newest') base.sort((a,b) => b.new - a.new);
+        filteredProducts = base;
+        renderProducts();
+      }
+
+      function loadMore() { displayCount += 4; renderProducts(); }
+
+      // ── CART ──
+      function addToCart(id, btn, e) {
+        if (e) e.stopPropagation();
+        const product = allProducts.find(p => p.id === id);
+        const existing = cart.find(c => c.id === id);
+        if (existing) existing.qty++;
+        else cart.push({ ...product, qty: 1 });
+        btn.classList.add('added');
+        setTimeout(() => btn.classList.remove('added'), 600);
+        updateCartBadge();
+        renderCart();
+        showToast(`${product.name} added to cart`);
+      }
+
+      function updateCartBadge() {
+        document.getElementById('cartBadge').textContent = cart.reduce((s,c) => s + c.qty, 0);
+      }
+
+      // FIX: renderCart now correctly shows image or emoji for each item
+      function renderCart() {
+        const container = document.getElementById('cartItems');
+        const footer = document.getElementById('cartFooter');
+        const empty = document.getElementById('cartEmpty');
+        if (cart.length === 0) {
+          empty.style.display = 'flex'; footer.style.display = 'none'; return;
+        }
+        empty.style.display = 'none'; footer.style.display = 'block';
+        const itemsHTML = cart.map(item => {
+          const imgHTML = item.image
+            ? `<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<span style=font-size:38px>${item.emoji || '🪑'}</span>'" />`
+            : `<span style="font-size:38px">${item.emoji || '🪑'}</span>`;
+          return `<div class="cart-item">
+            <div class="cart-item-img">${imgHTML}</div>
+            <div class="cart-item-details">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-cat">${item.cat}</div>
+              <div class="cart-item-controls">
+                <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+                <span class="qty-val">${item.qty}</span>
+                <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+              <div class="cart-item-price">PKR ${(item.price * item.qty).toLocaleString()}</div>
+              <button class="cart-remove" onclick="removeFromCart(${item.id})">✕</button>
+            </div>
+          </div>`;
+        }).join('');
+        const subtotal = cart.reduce((s,c) => s + c.price * c.qty, 0);
+        container.innerHTML = itemsHTML;
+        document.getElementById('cartSubtotal').textContent = 'PKR ' + subtotal.toLocaleString();
+        document.getElementById('cartTotal').textContent = 'PKR ' + subtotal.toLocaleString();
+      }
+
+      function changeQty(id, delta) {
+        const item = cart.find(c => c.id === id);
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+        updateCartBadge(); renderCart();
+      }
+
+      function removeFromCart(id) {
+        cart = cart.filter(c => c.id !== id);
+        updateCartBadge(); renderCart();
+      }
+
+      function toggleCart() {
+        document.getElementById('cartOverlay').classList.toggle('open');
+        document.getElementById('cartSidebar').classList.toggle('open');
+      }
+
+      // ── PAYMENT ──
+      // FIX: openPayment order summary uses image thumbnail or emoji correctly
+      function openPayment() {
+        if (cart.length === 0) return;
+        const subtotal = cart.reduce((s,c) => s + c.price * c.qty, 0);
+        const summaryHTML = cart.slice(0,3).map(c => {
+          const thumbHTML = c.image
+            ? `<img class="order-line-img" src="${c.image}" alt="${c.name}" onerror="this.style.display='none'" />`
+            : `<span>${c.emoji || '🪑'} </span>`;
+          return `<div class="order-line">${thumbHTML}<span>${c.name} ×${c.qty}</span><span>PKR ${(c.price * c.qty).toLocaleString()}</span></div>`;
+        }).join('') +
+        (cart.length > 3 ? `<div class="order-line"><span>+${cart.length - 3} more items</span></div>` : '') +
+        `<div class="order-line total"><span>Total</span><span>PKR ${subtotal.toLocaleString()}</span></div>`;
+        document.getElementById('orderSummaryMini').innerHTML = summaryHTML;
+        document.getElementById('paymentModal').classList.add('open');
+        toggleCart();
+      }
+
+      function closePayment() {
+        document.getElementById('paymentModal').classList.remove('open');
+      }
+
+      function selectCard(el, type) {
+        document.querySelectorAll('.card-icon').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('cardFields').style.display = type === 'COD' ? 'none' : 'block';
+      }
+
+      function formatCard(input) {
+        let v = input.value.replace(/\s+/g,'').replace(/[^0-9]/gi,'');
+        const parts = [];
+        for (let i=0,len=v.length; i<len; i+=4) parts.push(v.substring(i,i+4));
+        input.value = parts.length ? parts.join('  ') : v;
+        document.getElementById('cardBrand').textContent = v.startsWith('4') ? '💙' : v.startsWith('5') ? '🔴' : v.startsWith('3') ? '💚' : '💳';
+      }
+
+      function formatExpiry(input) {
+        let v = input.value.replace(/\D/g,'');
+        if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2);
+        input.value = v;
+      }
+
+      function processPayment() {
+        const orderId = '#WS-' + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById('orderId').textContent = orderId;
+        document.getElementById('paymentForm').style.display = 'none';
+        document.getElementById('successModal').classList.add('active');
+      }
+
+      function closeAndReset() {
+        closePayment();
+        cart = []; updateCartBadge(); renderCart();
+        document.getElementById('paymentForm').style.display = 'block';
+        document.getElementById('successModal').classList.remove('active');
+      }
+
+      // ── QUICK VIEW ──
+      // FIX: shows image if available, falls back to emoji
+      function openQuickView(id, e) {
+        if (e) e.stopPropagation();
+        const p = allProducts.find(x => x.id === id);
+        if (!p) return;
+        const imgEl = document.getElementById('qvImg');
+        if (p.image) {
+          imgEl.innerHTML = `<img src="${p.image}" alt="${p.name}" onerror="this.parentElement.innerHTML='<span style=font-size:100px>${p.emoji || '🪑'}</span>'" />`;
+        } else {
+          imgEl.innerHTML = `<span style="font-size:100px">${p.emoji || '🪑'}</span>`;
+        }
+        document.getElementById('qvCat').textContent = p.cat;
+        document.getElementById('qvName').textContent = p.name;
+        document.getElementById('qvRating').textContent = ` ${p.rating} · ${p.reviews} reviews`;
+        document.getElementById('qvPrice').textContent = 'PKR ' + p.price.toLocaleString();
+        document.getElementById('qvDesc').textContent = p.desc;
+        document.getElementById('qvSpecs').innerHTML = [
+          { k:'Material', v:p.material },
+          { k:'Size', v:p.size },
+          { k:'Finish', v:p.finish },
+          { k:'Weight', v:p.weight }
+        ].map(s => `<div class="qv-spec"><div class="k">${s.k}</div><div class="v">${s.v}</div></div>`).join('');
+        document.getElementById('qvAddBtn').onclick = () => {
+          const fakeBtn = { classList: { add: () => {}, remove: () => {} } };
+          addToCart(id, fakeBtn, null);
+          document.getElementById('quickviewModal').classList.remove('open');
+        };
+        document.getElementById('quickviewModal').classList.add('open');
+      }
+
+      function closeQV(e) {
+        if (e.target === document.getElementById('quickviewModal'))
+          document.getElementById('quickviewModal').classList.remove('open');
+      }
+
+      // ── WISHLIST ──
+      function toggleWishlist(btn, e) {
+        e.stopPropagation();
+        btn.classList.toggle('wishlisted');
+        showToast(btn.classList.contains('wishlisted') ? '❤️ Added to wishlist' : 'Removed from wishlist');
+      }
+
+      // ── TOAST ──
+      function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2800);
+      }
+
+      // ── NEWSLETTER ──
+      function subscribeNewsletter(btn) {
+        btn.textContent = '✓ Subscribed!';
+        btn.style.background = '#4A7C59';
+        setTimeout(() => { btn.textContent = 'Subscribe Now'; btn.style.background = ''; }, 3000);
+      }
+
+      // ── SCROLL REVEAL ──
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      // ── INIT ──
+      renderProducts();
+    </script>
+  </body>
+</html>
